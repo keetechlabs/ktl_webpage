@@ -762,6 +762,8 @@ p {
 
 .hover-link:hover {
     color: #fd8917 !important;
+    text-decoration: underline;
+    
 }
 
 
@@ -811,14 +813,3 @@ p {
         margin: 20px 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
