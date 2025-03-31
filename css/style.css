@@ -649,6 +649,39 @@ h4 {
     transform: translateY(-3px);
 }
 
+
+
+
+
+
+.member-img {
+    width: 200px; 
+    height: 250px; 
+    overflow: hidden;
+    margin: 0 auto 15px;
+}
+
+.member-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.member {
+    text-align: center; 
+}
+
+h4 {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+}
+
+
 /*=======================================================
 			BRANDS:
 ========================================================*/
@@ -727,6 +760,12 @@ h4 {
     text-align: center;
 }
 
+.hover-link:hover {
+    color: red !important;
+}
+
+
+
 /*=======================================================
 			MEDIA QUERIES:
 ========================================================*/
@@ -762,3 +801,24 @@ h4 {
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+    .custom-divider {
+        display: block;
+        width: 100%;
+        height: 5px;
+        background-color: white;
+        margin: 20px 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
