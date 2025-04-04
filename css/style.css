@@ -416,6 +416,7 @@ h4 {
 
 #testimonials .carousel-container img {
     width: 60px;
+    border-radius: 50%;
 }
 
 #testimonials .carousel-container .item {
@@ -761,7 +762,7 @@ p {
 }
 
 .hover-link:hover {
-    color: #fd8917 !important;
+    color:#fd8917 !important;
     text-decoration: underline;
     
 }
@@ -813,3 +814,14 @@ p {
         margin: 20px 0;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
