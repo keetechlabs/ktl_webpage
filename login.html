@@ -5,91 +5,199 @@
   <title> Login </title>
   <link rel="website Icon" type="png" href="./imgs/ktl logo.png">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      background-image: url(./imgs/loginbackground.jpg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
+  background-image: url(./imgs/loginbackground.jpg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+.container h2 {
+  margin-bottom: 20px;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color:#fd8917;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+button {
+  width: 100%;
+  background-color: #4b7bec;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-    button:hover {
-      background-color: #068BEA;
-    }
+button:hover {
+  background-color: #3867d6;
+}
 
-    .screen {
-      display: none;
-    }
+p {
+  margin-top: 16px;
+  font-size: 14px;
+}
 
-    .screen.active {
-      display: block;
-    }
+.link {
+  color: #4b7bec;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
   </style>
 </head>
-
 <body>
-    <div class="container">
-      <div id="loginScreen" class="screen active">
-        <h2>Welcome</h2>
-        <input type="text" placeholder="Username" id="username">
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
-      </div>
-    </div>
+  <div class="container" id="loginContainer">
+    <h2>Welcome</h2>
+    <input type="text" placeholder="Username" id="loginUsername"/>
+    <input type="password" placeholder="Password" id="loginPassword"/>
+    <button onclick="handleLogin()">Login</button>
+    <p>Don't have an account? <span class="link" onclick="showSignup()">Sign up</span></p>
+  </div>
+
+  <div class="container hidden" id="signupContainer">
+    <h2>Sign Up</h2>
+    <input type="text" placeholder="Username" id="username"/>
+    <input type="email" placeholder="Email" id="email"/>
+    <input type="tel" placeholder="Phone Number" id="phone"/>
+    <input type="password" placeholder="Password" id="password">
+    <input type="password" placeholder="Confirm Password" id="confirmPassword">
+    <button onclick="continueToOtp()">Continue</button>
+    <p id="matchMessage" class="message"></p>
+    <label for="togglePassword">Show Password</label>
+    <input type="checkbox" id="togglePassword" aria-label="Show password">
+    <p>
+      By signing up, you agree to our 
+      <a href="./terms_of_use.html" class="link" target="_blank">Terms of Service</a> and 
+      <a href="./privacy_policy.html" class="link" target="_blank">Privacy Policy</a>.
+    </p>
+    <p>Already have an account? <span class="link" onclick="showLogin()">Login</span></p>
+  </div>
+
+  <div class="container hidden" id="otpContainer">
+    <h2>Verify OTP</h2>
+    <p>OTP sent to <span id="otpPhone"></span></p>
+    <input type="text" placeholder="Enter OTP" id="otpInput"/>
+    <button onclick="verifyOtp()">Verify</button>
+  </div>
+<script>
+
+function showSignup() {
+  document.getElementById("loginContainer").classList.add("hidden");
+  document.getElementById("signupContainer").classList.remove("hidden");
+  document.getElementById("otpContainer").classList.add("hidden");
+}
   
-    <script>
-      function login() {
-        var username = document.getElementById('username').value.trim();
-        var password = document.getElementById('password').value.trim();
+function showLogin() {
+  document.getElementById("signupContainer").classList.add("hidden");
+  document.getElementById("otpContainer").classList.add("hidden");
+  document.getElementById("loginContainer").classList.remove("hidden");
+}
   
-        if (!username || !password) {
-          alert('Please enter both Username and Password.');
-          location.reload(); 
-          return;
-        }
+function continueToOtp() {
+  const phone = document.getElementById("phone").value.trim();
+  if (!phone) {
+    alert("Please enter phone number");
+    return;
+  }
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const confirmPassword = document.getElementById("confirmPassword").value.trim();
   
-        if (username === validUsername && password === validPassword) {
-          alert("Login successful!");
-        } else {
-          alert('Invalid username or password.');
-        }
+  document.getElementById("signupContainer").classList.add("hidden");
+  document.getElementById("otpContainer").classList.remove("hidden");
+  document.getElementById("otpPhone").textContent = phone;
+  alert(`OTP sent to ${phone}. Use 123456 for testing.`);
+}
   
-        location.reload();
-      }
-    </script>
-  </body>
+function verifyOtp() {
+  const otp = document.getElementById("otpInput").value.trim();
+  if (otp === "123456") {
+    alert("OTP Verified! Signup successful.");
+    showLogin();
+  } else {
+    alert("Invalid OTP. Try 123456.");
+  }
+  document.getElementById("otpInput").value = "";
+
+  document.getElementById("otpContainer").classList.add("hidden");
+  document.getElementById("signupContainer").classList.remove("hidden");
+  document.getElementById("loginContainer").classList.add("hidden");
+
+}
+  
+function handleLogin() {
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+  if (username === "admin" && password === "admin") {
+    alert("Login successful!");
+  } else if (username === "user" && password === "user") {
+    alert("Login successful!");
+  } else if (username === "guest" && password === "guest") {
+    alert("Login successful!");
+  } else if (username && password) {
+    alert(`Logged in as ${username}`);
+  } else {
+    alert("Please enter username and password.");
+  }
+}
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const message = document.getElementById("matchMessage");
+  const toggle = document.getElementById("togglePassword");
+
+  confirmPassword.addEventListener("input", () => {
+    if (confirmPassword.value === "") {
+      message.textContent = "";
+    } else if (confirmPassword.value === password.value) {
+      message.textContent = "Passwords match ✅";
+      message.className = "message match";
+    }
+    else {
+      message.textContent = "Passwords do not match ❌";
+      message.className = "message mismatch";
+    }
+  });
+
+  toggle.addEventListener("change", () => {
+    const type = toggle.checked ? "text" : "password";
+    password.type = type;
+    confirmPassword.type = type;
+    password.setAttribute("autocomplete", type);
+    confirmPassword.setAttribute("autocomplete", type);
+    password.setAttribute("aria-label", type === "text" ? "Password visible" : "Password hidden");
+    confirmPassword.setAttribute("aria-label", type === "text" ? "Password visible" : "Password hidden");
+  });
+});
+
+</script>
+
+</body>
+
 </html>
